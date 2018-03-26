@@ -1,6 +1,5 @@
 $(function () {
     const baseURL = `https://phonebook-part1.firebaseio.com/phonebook`;
-    //const url = 'https://phonebook-nakov.firebaseio.com/phonebook';
     let loadButton = $('#btnLoad').click(loadContacts);
     let createButton = $('#btnCreate').click(addContact);
     let phonebook = $('#phonebook');
