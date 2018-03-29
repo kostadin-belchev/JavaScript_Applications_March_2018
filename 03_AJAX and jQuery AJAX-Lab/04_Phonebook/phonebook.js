@@ -15,7 +15,7 @@ $(function () {
         $.ajax(request);
     }
     function displayContacts(data) {
-        //console.log(data);
+        console.log(data);
         // clear data on screen before priting it again
         phonebook.empty();
         for (let contact in data) {
