@@ -12,7 +12,7 @@ function attachEvents () {
     function loadCatches() {
         
         catchesDiv.empty();
-        console.log('cleared once');
+        //console.log('cleared once');
         
         $.ajax({
             method: 'GET',

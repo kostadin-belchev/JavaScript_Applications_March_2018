@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+      * {
+          box-sizing: border-box;
+      }
+      
+      /* Create two equal columns that floats next to each other */
+      .column {
+          float: left;
+          width: 50%;
+          padding: 10px;
+          /* height: 300px; /* Should be removed. Only for demonstration */
+      }
+      
+      /* Clear floats after the columns */
+      .row:after {
+          content: "";
+          display: table;
+          clear: both;
+      }
+      </style>
+  <title>Book App</title>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="book.js"></script>
+</head>
+<body>
+  <h1>Book shelf</h1>
+  <div class="row">
+      <div id="first-column" class="column" style="background-color:#aaa;">
+          <ul id="books"></ul>
+          <h2>Create Book</h2>
+            Book title: <input type="text" id="title" />
+          <br>
+            Book author: <input type="text" id="author" />
+          <br>
+          Book ISBN: <input type="text" id="isbn" />
+          <button id="btnCreate">Create</button>
+    </div>
+    <div id="second-column" class="column" style="background-color:#bbb; display: none;">
+        <fieldset id="editBook">
+            <legend>Edit Book</legend>
+            <label>Title</label>
+            <input type="text" id="titleToEdit"/>
+            <label>Author</label>
+            <input type="text" id="authorToEdit"/>
+            <label>ISBN</label>
+            <input type="text" id="isbnToEdit"/>
+            <button id="btnSubmit">Submit</button>
+        </fieldset>
+    </div>
+  </div>
+  <script>
+    attachEvents();
+  </script>
+</body>
+</html>
