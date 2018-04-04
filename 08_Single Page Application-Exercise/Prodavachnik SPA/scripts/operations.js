@@ -157,6 +157,7 @@ function loadAdForEdit(ad) {
     $('#formEditAd input[name=id]').val(ad._id);
     $('#formEditAd input[name=publisher]').val(ad.publisher);
     $('#formEditAd input[name=title]').val(ad.title);
+    $('#formEditAd textarea[name=description]').val(ad.description);
     $('#formEditAd input[name=datePublished]').val(ad.datePublished);
     $('#formEditAd input[name=price]').val(ad.price);
     // when we click on EDIT we have already atteched a click event to EDIT button so we will
