@@ -18,6 +18,7 @@ function showHideMenuLinks() {
         $('#linkListAds').show();
         $('#linkCreateAd').show();
         $('#linkLogout').show();
+        $('#loggedInUser').show();
         $('#loggedInUser').text("Welcome, " + sessionStorage.getItem('username') + "!");
     }
 }
@@ -42,17 +43,20 @@ function showHomeView() {
 }
 
 function showLoginView() {
+    // clear form of previous inputs
+    //$('#formLogin').trigger('reset');
     showView('viewLogin');
-    $('#formLogin').trigger('reset');
 }
 
 function showRegisterView() {
-    $('#formRegister').trigger('reset');
+    // clear form of previous inputs
+    //$('#formRegister').trigger('reset');
     showView('viewRegister');
 }
 
 function showCreateAdView() {
-    $('#formCreateAd').trigger('reset');
+    // clear form of previous inputs
+    //$('#formCreateAd').trigger('reset');
     showView('viewCreateAd');
 }
 
