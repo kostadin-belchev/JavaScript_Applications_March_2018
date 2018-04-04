@@ -11,14 +11,14 @@ function showHideMenuLinks() {
         $('#linkListAds').hide();
         $('#linkCreateAd').hide();
         $('#linkLogout').hide();
-        $('#loggedInUser').hide();
+        $('#loggedInUser').text('');
     } else { // logged in user
         $('#linkLogin').hide();
         $('#linkRegister').hide();
         $('#linkListAds').show();
         $('#linkCreateAd').show();
         $('#linkLogout').show();
-        $('#loggedInUser').show();
+        $('#loggedInUser').text("Welcome, " + sessionStorage.getItem('username') + "!");
     }
 }
 

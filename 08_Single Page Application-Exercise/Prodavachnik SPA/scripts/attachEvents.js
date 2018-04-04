@@ -8,14 +8,13 @@ function attachAllEvents(params) {
     $('#linkLogout').on('click', logoutUser);
 
     // Bind the form submit buttons
-    $("#formLogin").on('submit', loginUser);
-    console.log('point before register user is called');
-    $("#formRegister").on('submit', registerUser);
-    $("#formCreateAd").on('submit', createAdvert);
-    $("#formEditAd").on('submit', editAdvert);
+    $("#buttonLoginUser").on('click', loginUser);
+    $("#buttonRegisterUser").on('click', registerUser);
+    $("#buttonCreateAd").on('click', createAdvert);
+    $("#buttonEditAd").on('click', editAdvert);
 
-    //Disable default submit for all forms
-    $("form").on('submit', function(event) { event.preventDefault() });
+    // //Disable default click event for all forms
+    // $("form").on('click', function(event) { event.preventDefault() });
 
     // To make it prettier
     // Bind the info / error boxes: hide on click
