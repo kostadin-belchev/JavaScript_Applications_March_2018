@@ -57,6 +57,16 @@ function showRegisterView() {
 function showCreateAdView() {
     // clear form of previous inputs
     //$('#formCreateAd').trigger('reset');
+    //clearing form before we take in new data
+    let title = $('#formCreateAd input[name=title]');
+    let description = $('#formCreateAd textarea[name=description]');
+    let datePublished = $('#formCreateAd input[name=datePublished]');
+    let price = $('#formCreateAd input[name=price]');
+    title.val('');
+    description.val('');
+    datePublished.val('');
+    price.val('');
+    
     showView('viewCreateAd');
 }
 

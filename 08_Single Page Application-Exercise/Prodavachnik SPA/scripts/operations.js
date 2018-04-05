@@ -193,7 +193,9 @@ function editAdvert() {
 
 function createAdvert() {
     const kinveyUserUrl = `${BASE_URL}user/${APP_KEY}/${sessionStorage.getItem('userId')}`;
-
+    // When create an advertisement the current logged user should be it’s publisher. 
+    // We can do it by making one request to the database (by user’s “_id” property)
+    // and retrieve the whole user information
     $.ajax({
         url: kinveyUserUrl,
         headers: {
@@ -205,11 +207,12 @@ function createAdvert() {
 
     function afterPublisherRequest(publisher) {
         // parsing the information from the form and sending another request
-        // – this time to save our advert in database.
+        // – this time to save our advert in database. (below)
         let title = $('#formCreateAd input[name=title]');
         let description = $('#formCreateAd textarea[name=description]');
         let datePublished = $('#formCreateAd input[name=datePublished]');
         let price = $('#formCreateAd input[name=price]');
+        
 
         let advertData = {
             publisher: publisher.username,
