@@ -90,8 +90,9 @@ function listAds() {
     function loadAdsSuccess(ads) {
         showInfo('Ads loaded.');
         // empty ads before filling them out
-        //console.log(ads);
         $('#ads').empty();
+        // reverse the ads so new adds appear on top
+        ads.reverse();
         if (ads.length === 0) {
             $('#ads').text('No ads available.');
         } else {
@@ -102,6 +103,7 @@ function listAds() {
             trHeader.append($('<th>Description</th>'));
             trHeader.append($('<th>Price</th>'));
             trHeader.append($('<th>Date Published</th>'));
+            trHeader.append($('<th>Actions</th>'));
             adTable.append(trHeader);
             for (const ad of ads) {  // append all ad to the table
                 appendAdRow(ad, adTable);
@@ -212,7 +214,11 @@ function createAdvert() {
         let description = $('#formCreateAd textarea[name=description]');
         let datePublished = $('#formCreateAd input[name=datePublished]');
         let price = $('#formCreateAd input[name=price]');
-        
+        // if we do not have description we allow the add to be generated, but not without the other
+        if (!title.val() || !datePublished.val() || !price.val()) {
+            showError('Cannot create ad without title, date and price.');
+            return;
+        }
 
         let advertData = {
             publisher: publisher.username,
