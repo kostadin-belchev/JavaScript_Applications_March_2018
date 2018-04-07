@@ -5,22 +5,47 @@ $(() => {
         contacts: []
     };
 
+    let listContent = $('#list').find('.content');
+    let detailsContent = $('#details').find('.content');
+
+    //Attach event handlers
+
+
     loadData();
+    loadTemplates();
 
     async function loadData() {
         context.contacts = await $.get('./data.json');
     }
 
     async function loadTemplates() {
-        const [contactSource, listSource] = 
-        await Promise.all([$.get('./templates/contact.html'), $.get('./templates/contactsList.html')]);
+        const [contactSource, listSource, detailsSource] = 
+        await Promise.all([
+            $.get('./templates/contact.html'),
+            $.get('./templates/contactsList.html'),
+            $.get('./templates/details.html')
+        ]);
         Handlebars.registerPartial('contact', contactSource);
-        templates.listTemplate = Handlebars.compile(listSource);
+        templates.list = Handlebars.compile(listSource);
+        templates.details = Handlebars.compile(detailsSource);
 
         renderList();
     }
 
     function renderList() {
-        templates.listTemplate(context);
+        listContent.html(templates.list(context));
+        attachEventHandlers();
+    }
+
+    function attachEventHandlers() {
+        $('.contact').click( e => {
+            //console.log($(e.target).closest('.contact'));
+            let index = $(e.target).closest('.contact').attr('data-id');
+            renderDetails(index)
+        });
+    }
+
+    function renderDetails(index) {
+        detailsContent.html(templates.details(context.contacts[index]));
     }
 });
