@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prodavachnik</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="styles/custom/prodavachnik.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato|Open+Sans" rel="stylesheet">
+    <!--<script src="../../node_modules/handlebars/dist/handlebars.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+
+<body>
+<header id="menu" class="menu">
+
+</header>
+
+<main>
+    <div class="notification">
+        <section id="loadingBox" class="loadingBox">Loading ...</section>
+
+        <section id="infoBox" class="infoBox">Info</section>
+
+        <section id="errorBox" class="errorBox"><span class="notification-text"></span><span class="close-symbol">&#10006</span>
+        </section>
+    </div>
+    <div id="view">
+
+    </div>
+
+
+    <script src="./scripts/helperRegister.js"></script>
+    <script src="./scripts/prodavachnik.js"></script>
+    <script>
+        startApp();
+    </script>
+</main>
+<footer>Prodavachnik - Simple SPA Application</footer>
+</body>
+</html>

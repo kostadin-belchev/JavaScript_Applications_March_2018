@@ -1,0 +1,12 @@
+{{#if user.isAuthenticated}}
+    <a href="#" id="linkHome" class="menu-item" data-type="main">Home</a>
+    <a href="#" id="linkListAds" class="menu-item" data-type="products">List Advertisements</a>
+    <a href="#" id="linkCreateAd" class="menu-item" data-type="products">Create Advertisement</a>
+    <a href="#" id="linkLogout" class="menu-item" data-type="main">Logout</a>
+    <span id="loggedInUser" class="menu-item" data-type="main">My profile: {{user.username}}</span>
+    <div></div>
+{{else}}
+    <a href="#" id="linkHome" class="menu-item" data-type="main">Home</a>
+    <a href="#" id="linkLogin" class="menu-item" data-type="main">Login</a>
+    <a href="#" id="linkRegister" class="menu-item" data-type="main">Register</a>
+{{/if}}

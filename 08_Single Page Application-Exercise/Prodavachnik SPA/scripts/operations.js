@@ -5,9 +5,17 @@ const APP_SECRET = '8b67885659bc4ac5a83733484305c14b';
 
 // Session functionality (logout, login, register, etc.)
 function registerUser() {
+    let username = $('#formRegister input[name=username]').val();
+    let password = $('#formRegister input[name=passwd]').val();
+
+    if (username === '' || password === '') {
+        showError("Username and password cannot be empty. Please enter both.");
+        return;
+    }
+
     let userData = {
-        username: $('#formRegister input[name=username]').val(),
-        password: $('#formRegister input[name=passwd]').val()
+        username: username,
+        password: password
     }
 
     let request = {

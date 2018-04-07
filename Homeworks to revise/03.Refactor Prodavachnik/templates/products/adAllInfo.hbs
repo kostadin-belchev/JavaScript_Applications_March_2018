@@ -1,0 +1,28 @@
+<section id="viewAllAd">
+    <div class="all-info-container">
+        <div class="ad-body">
+            <div class="ad-header">
+                {{#ifCond product.publisher "==" username}}
+                    <div class="edit-btn" data-id="{{product._id}}"><span>&#9997;</span></div>
+                    <div class="delete-btn" data-name="{{product.title}}" data-id="{{product._id}}"><span>&#9746;</span>
+                    </div>
+                {{else}}
+                    <div></div>
+                {{/ifCond}}
+            </div>
+            <div class="ad-info row">
+                <div class="ad-image-big col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12"><img src="{{product.imageUrl}}"
+                                                                                           alt=""></div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div><span>Product name: </span>{{product.title}}</span>
+                    </div>
+                    <div><span>Description: </span>
+                        <p>{{product.description}}</p></div>
+                    <div><span>Price: </span><span>{{product.price}}</span></div>
+                    <div><span>Publisher: </span><span>{{product.publisher}}</span></div>
+                    <div><span>Date published: </span><span>{{product.createdAt}}</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
