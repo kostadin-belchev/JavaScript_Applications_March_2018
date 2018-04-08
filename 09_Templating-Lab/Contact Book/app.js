@@ -8,9 +8,6 @@ $(() => {
     let listContent = $('#list').find('.content');
     let detailsContent = $('#details').find('.content');
 
-    //Attach event handlers
-
-
     loadData();
     loadTemplates();
 
@@ -36,7 +33,7 @@ $(() => {
         listContent.html(templates.list(context));
         attachEventHandlers();
     }
-
+    // Attach event handlers
     function attachEventHandlers() {
         $('.contact').click( e => {
             //console.log($(e.target).closest('.contact'));
