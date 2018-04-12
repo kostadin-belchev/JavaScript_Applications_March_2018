@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Handlebars</title>
+    <style>
+        article {
+            background: #EEE;
+            padding: 1px;
+            width: 250px;
+            margin: 1px;
+        }
+
+        .title {
+            background: #DDD;
+            padding: 5px;
+            font-weight: bold;
+        }
+
+        .title button {
+            float: right
+        }
+
+        .info {
+            margin: 5px;
+        }
+
+        .info span {
+            display: block;
+        }
+
+        .online {
+            background: #9E9;
+        }
+    </style>
+
+    <script src="../jquery.min.js"></script>
+    <script src="../../node_modules/handlebars/dist/handlebars.min.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script id="contact-template" type="text/x-handlebars-template">
+        <article>
+            <div class="title">{{firstName}} {{lastName}}
+                <button>&#8505;</button>
+            </div>
+            <div class="info">
+                <span>&phone; {{phone}}</span>
+                <span>&#9993; {{email}}</span>
+            </div>
+        </article>
+    </script>
+    <script id="list-template" type="text/x-handlebars-template">
+        <h1>Today's fresh produce:</h1>
+        <ul>
+            {{#each items}}
+            <li>
+                <!-- [{{@index}}] {{name}}: {{price}} -->
+                <!-- if is object[-->
+                [{{@index}}] {{@key}}: {{this}}
+            </li>
+            {{else}}
+            <li>
+                <i>(no produce today)</i>
+            </li>
+            {{/each}}
+        </ul>
+    </script>
+    <script id="weather-template" type="text/x-handlebars-template">
+        <div>
+            <h1>The Weather Report</h1>
+            {{#if sunny}}
+            <p>The sky is clear</p>
+            {{else}}
+            <p>sky is overcast</p>
+            {{/if}}
+        </div>
+    </script>
+    <script id="navigation-template" type="text/x-handlebars-template">
+        <header>
+            <span>Book Library</span>
+            {{#each links}}
+            <a href="#" id="{{id}}">{{label}}</a>
+            {{/each}}
+        </header>
+    </script>
+    <script>
+        let container = document.getElementById('app');
+
+        let source=document.getElementById('navigation-template').innerHTML;
+        let template=Handlebars.compile(source);
+
+        let context={
+            links:[
+                {
+                    id: 'viewHome', label:'Home'
+                },
+                {
+                    id: 'viewLogin', label:'Login'
+                },
+                {
+                    id: 'viewRegister', label:'Register'
+                }
+            ]
+        };
+
+        container.innerHTML=template(context);
+
+        /* conditional statement
+            let source = document.getElementById('weather-template').innerHTML;
+            let template = Handlebars.compile(source);
+
+            container.innerHTML += template({
+            sunny: true
+            });
+        */
+        /* FOR LOOP
+            let source = document.getElementById('list-template').innerHTML;
+            let template = Handlebars.compile(source);
+            let context = {
+            items: {
+                Tomatoes:1.20,
+                Cucumbers:2.80,
+                Potatoes:0.79
+                }
+            
+        };
+        // let context = {
+        //     items: [{
+        //             name: 'Tomatoes',
+        //             price: 1.20
+        //         },
+        //         {
+        //             name: 'Cucumbers',
+        //             price: 2.80
+        //         },
+        //         {
+        //             name: 'Potatoes',
+        //             price: 0.79
+        //         }
+        //     ]
+        // };
+        container.innerHTML = template(context);
+
+        /* demo with sample data without loop
+                let source = document.getElementById('contact-template').innerHTML;
+                 let contacts = [{
+                        firstName: "Ivan",
+                        lastName: "Ivanov",
+                        phone: "0888 123 456",
+                        email: "i.ivanov@gmail.com"
+                    },
+                    {
+                        firstName: "Maria",
+                        lastName: "Petrova",
+                        phone: "0899 987 654",
+                        email: "mar4eto@abv.bg"
+                    },
+                    {
+                        firstName: "Jordan",
+                        lastName: "Kirov",
+                        phone: "0988 456 789",
+                        email: "jordk@gmail.com"
+                    }
+                ];
+                let template = Handlebars.compile(source);
+                for (let contact of contacts) {
+                    container.innerHTML += template(contact);
+                }
+                */
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,168 @@
+body {
+	background: #f5d3f7;
+}
+
+#menu {
+	font-size: 1.5em;
+	background: rgb(179, 117, 170);
+	padding: 5px;
+	line-height: 1.5;
+	border-radius: 3px;
+    overflow: auto;
+}
+
+#menu a {
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+	color: #fff;
+}
+
+#menu a:hover {
+	background: #BBB;
+}
+
+#menu a:visited {
+	color: #fff;
+}
+
+#menu a.active {
+	background: #BBB;
+}
+
+#menu>#loggedInUser {
+    float: right;
+    margin-right: 10px;
+}
+
+main > section {
+	display: none;
+}
+
+section {
+	margin: 1em;
+	border-radius: 10px;
+	background: rgb(248, 223, 243);
+}
+
+section > .content {
+	padding: 1em;
+}
+
+section h1 {
+	font-size: 1.5em;
+	background: #e4c7e2;
+	padding: 0.5em 1em;
+	margin: 0;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+table th {
+    background: #DDD;
+    padding: 10px;
+}
+
+table tr:nth-child(odd) {
+    background: #EEE;
+}
+
+table tr:nth-child(even) {
+    background: #FFF;
+}
+
+table td {
+    padding: 5px 10px;
+}
+
+.notification {
+	font-size: 1.5em;
+	float: right;
+    color: #ffffff;
+    padding:  0.5em 2em 0.5em 2em;
+    margin: 1em;
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+	text-align: center;
+	border-radius: 3px;
+}
+
+#loadingBox {
+	background: #7CB3E9;
+}
+#infoBox {
+	background: #393;
+}
+#errorBox {
+	background: #F50;
+}
+
+footer {
+	background: rgb(207, 155, 207);
+	padding: 5px 10px;
+	font-size: 0.8em;
+	text-align: center;
+	border-radius: 3px;
+}
+
+.homeImage > img {
+	width: 100%;
+	height: 490px;
+}
+
+td:nth-child(1n) {
+	width: 17%;
+}
+
+td:nth-child(2n) {
+	width: 17%;
+}
+
+td:nth-child(3n) {
+	width: 55%;
+}
+
+td:nth-child(4n) {
+	width: 11%;
+}
+
+#results {
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#results tr {
+    background-color: #AAAAAA;
+    padding: 5vh;
+    font-size: 1.5vw;
+}
+
+#results tr:nth-child(odd) {
+    background-color: #808080;
+}
+
+#results tr:first-child {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 2vw;
+}
+
+#results tr th {
+    padding: 1vw;
+}
+
+#results tr td {
+    padding: 1vw;
+    transition: font-size 0.2s;
+}
+
+#results tr:not(:first-child):hover {
+    background-color: #F0F8FF;
+    color: #000000;
+    font-size: 2.25vw;
+}

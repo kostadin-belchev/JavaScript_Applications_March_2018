@@ -1,0 +1,19 @@
+{
+  "name": "woop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "info.js",
+  "dependencies": {
+    "handlebars": "^4.0.11",
+    "jquery": "^3.3.1",
+    "jquery-validation": "^1.17.0",
+    "lite-server": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "lite-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

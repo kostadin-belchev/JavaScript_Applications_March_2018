@@ -1,6 +1,12 @@
 <section id="{{sectionType}}" class="{{sectionType}}">
     <h1 class="titleForm">{{sectionText}}</h1>
     <form id="{{formId}}" class="form">
+        <div>
+            <input type="text" name="id" hidden/>
+        </div>
+        <div>
+            <input type="text" name="publisher" hidden/>
+        </div>
         <div>Title:</div>
         <div>
             <input type="text" name="title" required />
@@ -18,7 +24,7 @@
             <input type="number" step="0.01" name="price" required />
         </div>
         <div>
-            <input type="button" id="buttonCreateAd" value="Create" onclick="{{buttonFunctionToExec}}"/>
+            <input type="button" id="{{buttonType}}" value="{{buttonText}}" onclick="{{buttonFunctionToExec}}"/>
         </div>
     </form>
 </section>

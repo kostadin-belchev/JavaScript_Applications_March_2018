@@ -1,0 +1,25 @@
+input{
+    display: inline-block;
+    margin: 1px 2em
+}
+label{
+    display: inline-block;
+    width:30px;
+}
+
+#notification{
+    float: right;
+    background: #991111;
+    color:#ffffff; 
+    padding: 0.5em 2em;
+    margin: 1em;
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#phonebook span{
+    display: inline-block;
+    width: 10em;
+}

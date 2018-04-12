@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Students Management System</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="scripts/session.js"></script>
+	<script src="scripts/displayElements.js"></script>
+	<script src="scripts/crudOperations.js"></script>
+	<script src="scripts/attachEvents.js"></script>
+	<script src="scripts/app.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.1/jquery.twbsPagination.js"></script>
+	<link rel="stylesheet" type="text/css" href="styles/students.css" />
+	<link rel="stylesheet" type="text/css" href="styles/pagination.css" />
+
+</head>
+
+<body>
+	<header id="menu">
+		<a href="#" id="linkHome">Home</a>
+		<a href="#" id="linkLogin">Login</a>
+		<a href="#" id="linkRegister">Register</a>
+		<a href="#" id="linkListStudents">List Students</a>
+		<a href="#" id="linkCreateStudent">Create Student</a>
+		<a href="#" id="linkLogout">Logout</a>
+		<span id="loggedInUser"></span>
+	</header>
+
+	<main>
+		<section id="loadingBox" class="notification">Loading ...</section>
+
+		<section id="infoBox" class="notification">Info</section>
+
+		<section id="errorBox" class="notification">Error</section>
+
+		<section id="viewHome">
+			<h1>Welcome</h1>
+			<div class="content">
+				<p>Welcome to student's info system.</p>
+			</div>
+			<div class="homeImage">
+				<img src="images/students.jpg">
+			</div>
+		</section>
+
+		<section id="viewLogin">
+			<h1>Please login</h1>
+			<div class="content">
+				<form id="formLogin">
+					<div>Username:</div>
+					<div>
+						<input type="text" name="username" required />
+					</div>
+					<div>Password:</div>
+					<div>
+						<input type="password" name="passwd" required />
+					</div>
+					<div>
+						<input type="submit" value="Login" />
+					</div>
+				</form>
+			</div>
+		</section>
+
+		<section id="viewRegister">
+			<h1>Please register here</h1>
+			<div class="content">
+				<form id="formRegister">
+					<div>Username:</div>
+					<div>
+						<input type="text" name="username" required />
+					</div>
+					<div>Password:</div>
+					<div>
+						<input type="password" name="passwd" required />
+					</div>
+					<div>
+						<input type="submit" value="Register" />
+					</div>
+				</form>
+			</div>
+		</section>
+
+		<section id="viewStudents">
+			<h1>Students</h1>
+			<div id="results">
+				<div id="students">
+					<table>
+						<tr>
+							<th>Id</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Faculty Number</th>
+							<th>Grade</th>
+							<th>Actions</th>
+						</tr>
+						<tr>
+							<td>Student Id</td>
+							<td>Student First Name</td>
+							<td>Student Last Name</td>
+							<td>Student Faculty Number</td>
+							<td>Student Grade</td>
+							<td>
+								<a href="#">[Delete]</a>
+								<a href="#">[Edit]</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="wrapper">
+				<div class="col-sm-12">
+					<ul id="pagination-demo" class="pagination"></ul>
+				</div>
+			</div>
+		</section>
+
+		<section id="viewCreateStudent">
+			<h1>Create new student</h1>
+			<div class="content">
+				<form id="formCreateStudent">
+					<label for="id">ID:</label>
+					<div>
+						<input type="text" id="id" required />
+					</div>
+					<label for="firstName">First Name:</label>
+					<div>
+						<input type="text" id="firstName" required />
+					</div>
+					<label for="lastName">Last Name:</label>
+					<div>
+						<input type="text" id="lastName" required />
+					</div>
+					<label for="facultyNumber">Faculty Number:</label>
+					<div>
+						<input type="text" id="facultyNumber" required />
+					</div>
+					<label for="grade">Grade:</label>
+					<div>
+						<input type="text" id="grade" required />
+					</div>
+
+					<div>
+						<input type="submit" value="Create" />
+					</div>
+				</form>
+			</div>
+		</section>
+
+		<section id="viewEditStudent">
+			<h1>Edit existing student</h1>
+			<div class="content">
+				<form id="formEditStudent">
+					<label for="newId">ID:</label>
+					<div>
+						<input type="text" id="newId" disabled />
+					</div>
+					<label for="newfirstName">First Name:</label>
+					<div>
+						<input type="text" id="newfirstName" required />
+					</div>
+					<label for="newlastName">Last Name:</label>
+					<div>
+						<input type="text" id="newlastName" required />
+					</div>
+					<label for="newfacultyNumber">Faculty Number:</label>
+					<div>
+						<input type="text" id="newfacultyNumber" disabled />
+					</div>
+					<label for="newGrade">Grade:</label>
+					<div>
+						<input type="text" id="newGrade" required />
+					</div>
+					<div>
+						<input type="submit" value="Edit" />
+					</div>
+				</form>
+			</div>
+		</section>
+	</main>
+
+	<footer>Students Management System - Simple SPA Application &copy 2018</footer>
+</body>
+
+</html>

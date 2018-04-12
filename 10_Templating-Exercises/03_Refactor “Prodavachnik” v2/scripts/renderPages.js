@@ -49,7 +49,7 @@ async function loadRegister() {
     await sectionLoader(context, './templates/login-register-template.hbs');
 }
 
-async function loadCreateAdd() {
+async function loadCreateAd() {
     let context = {
         sectionType: 'viewCreateAd',
         formId: 'formCreateAd',
@@ -68,7 +68,7 @@ async function loadAdForEdit() {
         sectionText: 'Edit existing advertisement',
         buttonType: 'buttonEditAd',
         buttonText: 'Edit',
-        buttonFunctionToExec: 'editAdvert()'
+        buttonFunctionToExec: 'uploadEditedApp()'
     }
     await sectionLoader(context, './templates/create-edit-ad-template.hbs');
 }

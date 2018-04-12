@@ -1,0 +1,20 @@
+
+    {{#if filter}}
+        <h2 class="titlebar">{{filter}}</h2>
+    {{else}}
+        <h2 class="titlebar">{{currentUser}}</h2>
+    {{/if}} 
+
+    {{#if isMe}}
+        <form id="formSubmitChirp" class="chirp-form" action="#/create" method="POST">
+            <textarea name="text" class="chirp-input"></textarea>
+            <input class="chirp-submit" id="btnSubmitChirp" value="Chirp" type="submit">
+        </form>
+    {{else}} 
+        {{#if isFollowing}}
+            <a id="btnUnfollow" class="chirp-author" href="#/unfollow/{{filter}}">Unfollow</a>
+        {{else}}
+             <a id="btnFollow" class="chirp-author" href="#/follow/{{filter}}">Follow</a>
+        {{/if}} 
+    {{/if}}
+

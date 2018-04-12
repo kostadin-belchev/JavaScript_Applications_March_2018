@@ -1,0 +1,5 @@
+$(() => {
+	showHideMenuLinks();
+	showView('viewHome');
+	attachAllEvents();
+});

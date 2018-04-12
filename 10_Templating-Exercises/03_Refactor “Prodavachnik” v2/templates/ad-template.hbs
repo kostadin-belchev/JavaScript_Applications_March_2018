@@ -3,11 +3,11 @@
     <td>{{publisher}}</td>
     <td>{{description}}</td>
     <td>{{price}}</td>
-    <td>{{date}}</td>
+    <td>{{datePublished}}</td>
     <td>
         {{#if isEditableAd}}
-        <button onclick="deleteAd({{_id}})">Delete</button>
-        <button onclick="editAd({{_id}})">Edit</button>
+        <button onclick="deleteAd('{{_id}}')">Delete</button>
+        <button onclick="editAdvert('{{_id}}')">Edit</button>
         {{/if}}
     </td>
 </tr>

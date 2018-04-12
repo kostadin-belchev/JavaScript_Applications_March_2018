@@ -20,13 +20,13 @@
                 <td>{{datePublished}}</td>
                 <td>
                     {{#if isEditableAd}}
-                    <button onclick="deleteAd({{_id}})">Delete</button>
-                    <button onclick="editAd({{_id}})">Edit</button>
+                    <button onclick="deleteAd('{{_id}}'')">Delete</button>
+                    <button onclick="editAd('{{_id}}'')">Edit</button>
                     {{/if}}
                 </td>
             </tr>  --}}
             {{else}}
-                <i>(No ads available)</i>
+                <p style="font-style: italic">No ads available</p>
             {{/each}}
         </table>
     </div>

@@ -1,0 +1,7 @@
+{
+    "eslint.enable": true,
+    "jshint.enable": false,
+    "mocha.enabled": true,
+      // Controls how suggestions are pre-selected when showing the suggest list.
+  "editor.suggestSelection": "recentlyUsed"
+}

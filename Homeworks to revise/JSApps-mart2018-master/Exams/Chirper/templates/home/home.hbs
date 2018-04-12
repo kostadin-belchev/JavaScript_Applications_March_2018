@@ -1,0 +1,27 @@
+ {{> header}}
+<section id="viewFeed" action="#/home" method="post">
+    <div class="content">
+         <div class="chirper">
+            {{#if loggedIn}} 
+            {{> createForm}}
+            <div id="userStats" class="user-details">
+            <span class="loading">Loading stats&hellip;</span>
+            {{!-- {{> userStats}}  --}}
+            </div>
+         </div>
+
+        <div id="chirps" class="chirps">
+            <h2 class="titlebar">Chirps</h2>
+            <div class="chirp">
+                <span class="loading">Loading &hellip;</span>
+            </div>
+            {{!-- {{> chirpList}} --}}
+        </div>
+         {{else}}
+        <p>Welcome to Chirper!</p>
+        <p>Please Login or Register</p>
+        {{/if}}
+    </div>
+</section>
+
+{{> footer}}

@@ -102,7 +102,7 @@ function listAds() {
         // $('#ads').empty();
         // reverse the ads so new adds appear on top
         ads.reverse();
-        if (ads.length !== 0) {
+        //if (ads.length !== 0) {
             for (const ad of ads) {
                 ad.isEditableAd = false;
                 if (ad._acl.creator == sessionStorage.getItem('userId')) {
@@ -112,24 +112,27 @@ function listAds() {
             }
 
             let context = {ads};
-            // GYRMI LINIQTA DOLU, toest 116-ta
+            //console.log('Before request to get partial source');
+            // BE CAREFUL TO NOT HAVE AD BLOCK ON BROWSER OTHERWISE WILL GET BLOCKED BY CLIENT ERROR
             let sourceAd = await $.get('./templates/ad-template.hbs');
             Handlebars.registerPartial('ad', sourceAd);
             await sectionLoader(context, './templates/list-ads-template.hbs');
 
-        } else { // if ads have 0 length
-            $('main').html('<p style="font-style: italic">No ads available</p>');
-        }
+        // } else { // if ads have 0 length
+        //     $('main').html('<p style="font-style: italic">No ads available</p>');
+        // }
     }
 }
 
 
 
-function deleteAd(ad) {
+function deleteAd(adIdToDelete) {
     // DELETE -> BASE_URL + 'appdata/' + APP_KEY + '/ads/' + ad._id
+    // console.log('Starting to delete add');
+    // console.log(adIdToDelete);
     $.ajax({
         method: 'DELETE',
-        url: BASE_URL + 'appdata/' + APP_KEY + '/ads/' + ad._id,
+        url: BASE_URL + 'appdata/' + APP_KEY + '/ads/' + adIdToDelete,
         headers: {
             'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken')
         },
@@ -143,33 +146,61 @@ function deleteAd(ad) {
     }
 }
 
-function loadAdForEdit(ad) {
-    showView('viewEditAd');
-    $('#formEditAd input[name=id]').val(ad._id);
-    $('#formEditAd input[name=publisher]').val(ad.publisher);
-    $('#formEditAd input[name=title]').val(ad.title);
-    $('#formEditAd textarea[name=description]').val(ad.description);
-    $('#formEditAd input[name=datePublished]').val(ad.datePublished);
-    $('#formEditAd input[name=price]').val(ad.price);
-    // when we click on EDIT we have already atteched a click event to EDIT button so we will
-    // be redirected to below function editAdvert()
+
+// we only get the ID so fist we get the ad by it's ID and then we fill out the form 
+// with the data then we modify the add and then save again to database
+// Step 1. A GET to /appdata/:appKey/:collectionName/:id lets an app retrieve 
+// a previously created entity.
+// Step 2. PUT -> BASE_URL + 'appdata/' + APP_KEY + '/ads/' + ad._id
+function editAdvert(adIdToEdit) {
+    //console.log(adIdToEdit);
+    // Step 1
+    $.ajax({
+        url:  BASE_URL + 'appdata/' + APP_KEY + '/ads/' + adIdToEdit,
+        headers: {
+            'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken')
+        },
+        success: retrieveAdToEditSuccess,
+        error: handleAjaxError
+    });
+
+    async function retrieveAdToEditSuccess(ad) {
+        await loadAdForEdit();
+        $('#formEditAd input[name=id]').val(ad._id);
+        $('#formEditAd input[name=publisher]').val(ad.publisher);
+        $('#formEditAd input[name=title]').val(ad.title);
+        $('#formEditAd textarea[name=description]').val(ad.description);
+        $('#formEditAd input[name=datePublished]').val(ad.datePublished);
+        $('#formEditAd input[name=price]').val(ad.price);
+        // when we click on EDIT we have already atteched a click event to EDIT button so we will
+        // be redirected to below function editAdvert()
+    }
 }
 
-function editAdvert() {
-    // PUT -> BASE_URL + 'appdata/' + APP_KEY + '/ads/' + ad._id
+function uploadEditedApp() {
+    // step 2
     let adData = {
+        id: $('#formEditAd input[name=id]').val(),
         publisher: $('#formEditAd input[name=publisher]').val(),
         title: $('#formEditAd input[name=title]').val(),
-        description: $('#formEditAd textarea[name=description]').val(), // NOT SURE IF THIS SHOULD BE val() OR text()
+        description: $('#formEditAd textarea[name=description]').val(),
         datePublished: $('#formEditAd input[name=datePublished]').val(),
         price: $('#formEditAd input[name=price]').val()
     };
 
+    // if we do not have description we allow the add to be generated, but not without the other
+    if (!adData.title || !adData.datePublished || !adData.price) {
+        showError('An ad must have title, date and price.');
+        return;
+    }
+    //console.log(adData.id);
+    $('#errorBox').hide();
     $.ajax({
         method: 'PUT',
-        url: BASE_URL + 'appdata/' + APP_KEY + '/ads/' + $('#formEditAd input[name=id]').val(),
+        url: BASE_URL + 'appdata/' + APP_KEY + '/ads/' + adData.id /*$('#formEditAd input[name=id]').val()*/,
         headers: {
-            'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken')
+            'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+            //'Content-Type': 'application/json'
         },
         data: adData,
         success: editAdSuccess,
@@ -177,6 +208,7 @@ function editAdvert() {
     });
 
     function editAdSuccess(response) {
+
         listAds();
         showInfo('Ad edited.')
     }
@@ -212,7 +244,7 @@ function createAdvert() {
         let advertData = {
             publisher: publisher.username,
             title: title.val(),
-            description: description.val(), // NOT SURE IF THIS SHOULD BE val() OR text()
+            description: description.val(),
             datePublished: datePublished.val(),
             price: price.val()
         }
