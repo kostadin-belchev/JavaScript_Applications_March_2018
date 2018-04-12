@@ -12,7 +12,7 @@ function attachEvents() {
     async function loadTemplates() {
         const listTownsSource = $('#towns-template').html();
         //console.log(listTownsSource);
-        const townSource = await $.get('./templates/town.html');
+        const townSource = await $.get('./templates/town.hbs');
         Handlebars.registerPartial('town', townSource);
         templates.list = Handlebars.compile(listTownsSource);
 

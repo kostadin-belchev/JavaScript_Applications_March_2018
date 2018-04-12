@@ -1,0 +1,13 @@
+<tr>
+    <td>{{title}}</td>
+    <td>{{publisher}}</td>
+    <td>{{description}}</td>
+    <td>{{price}}</td>
+    <td>{{date}}</td>
+    <td>
+        {{#if isEditableAd}}
+        <button onclick="deleteAd({{_id}})">Delete</button>
+        <button onclick="editAd({{_id}})">Edit</button>
+        {{/if}}
+    </td>
+</tr>

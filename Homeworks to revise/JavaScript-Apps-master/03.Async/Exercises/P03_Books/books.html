@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>National Library</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="books.js"></script>
+</head>
+
+<body>
+    <h1>NATIONAL LIBRARY</h1>
+    <fieldset id="main">
+        <legend>My Books</legend>
+        <div id="books">
+            
+        </div>
+    </fieldset>
+    <div id="aside">
+        <button class="load">Get Books</button>
+        <fieldset id="addForm">
+            <legend>Add Book</legend>
+            <label>Title</label>
+            <input type="text" class="title"/>
+            <label>Author</label>
+            <input type="text" class="author"/>
+            <label>ISBN</label>
+            <input type="text" class="isbn"/>
+            <button class="add">Add a Book</button>
+        </fieldset>
+    </div>
+    <script>
+        attachEvents()
+    </script>
+</body>
+
+</html>

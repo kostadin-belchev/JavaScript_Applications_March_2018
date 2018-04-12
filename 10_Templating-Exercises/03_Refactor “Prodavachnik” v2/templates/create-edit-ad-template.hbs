@@ -1,0 +1,24 @@
+<section id="{{sectionType}}" class="{{sectionType}}">
+    <h1 class="titleForm">{{sectionText}}</h1>
+    <form id="{{formId}}" class="form">
+        <div>Title:</div>
+        <div>
+            <input type="text" name="title" required />
+        </div>
+        <div>Description:</div>
+        <div>
+            <textarea name="description" rows="10" required></textarea>
+        </div>
+        <div>Date Published:</div>
+        <div>
+            <input type="date" name="datePublished" required />
+        </div>
+        <div>Price:</div>
+        <div>
+            <input type="number" step="0.01" name="price" required />
+        </div>
+        <div>
+            <input type="button" id="buttonCreateAd" value="Create" onclick="{{buttonFunctionToExec}}"/>
+        </div>
+    </form>
+</section>

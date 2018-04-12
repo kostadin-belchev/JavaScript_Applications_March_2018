@@ -1,0 +1,34 @@
+<section id="viewListAds" class="viewAds">
+    <h1 class="titleForm">Advertisements</h1>
+    <div id="ads" class="ads container">
+        <div class="row">
+            {{#each products}}
+                <div class="ad-container col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
+                    <div class="ad-body">
+                        <div class="ad-header">
+                            {{#ifCond publisher "==" ../username}}
+                                <div class="edit-btn" data-id="{{_id}}"><span>&#9997;</span></div>
+                                <div class="delete-btn" data-name="{{title}}" data-id="{{_id}}"><span>&#9746;</span>
+                                </div>
+                            {{else}}
+                                <div></div>
+                            {{/ifCond}}
+                        </div>
+
+                        <div class="ad-info">
+                            <div class="ad-image link-product-page" data-id="{{_id}}"><img src="{{imageUrl}}" alt="">
+                            </div>
+                            <div><span>Product name: </span><a href="#" data-id="{{_id}}"
+                                                               class="link-product-page">{{title}}</a></div>
+                            <div><span>Price: </span><span>{{price}}</span></div>
+                            <div><span>Publisher: </span><span>{{publisher}}</span></div>
+                            <div><span>Date published: </span><span>{{createdAt}}</span></div>
+                        </div>
+                    </div>
+                </div>
+            {{else}}
+                <p>There are no products published yet</p>
+            {{/each}}
+        </div>
+    </div>
+</section>

@@ -1,0 +1,11 @@
+  {{#if userIsLogged}}
+  <a href="#" id="linkHome" class="menu-item" data-type="main" onclick="loadHome()">Home</a>
+  <a href="#" id="linkListAds" class="menu-item" data-type="products" onclick="loadAllAds()">List Advertisements</a>
+  <a href="#" id="linkCreateAd" class="menu-item" data-type="products" onclick="loadCreateAd()">Create Advertisement</a>
+  <a href="#" id="linkLogout" class="menu-item" data-type="main" onclick="logoutUser()">Logout</a>
+  <span id="loggedInUser" class="menu-item" data-type="main">WELCOME, {{username}}!</span>
+  {{else}}
+  <a href="#" id="linkHome" class="menu-item" data-type="main"onclick="loadHome()">Home</a>
+  <a href="#" id="linkLogin" class="menu-item" data-type="main" onclick="loadLogin()">Login</a>
+  <a href="#" id="linkRegister" class="menu-item" data-type="main" onclick="loadRegister()">Register</a>
+  {{/if}}
