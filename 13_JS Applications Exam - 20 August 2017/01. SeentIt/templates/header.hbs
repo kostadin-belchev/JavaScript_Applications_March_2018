@@ -1,0 +1,10 @@
+<header>
+    <span class="logo">☃</span>
+    <span class="header">SeenIt</span>
+    <div id="profile">
+        {{#if user.isAuthenticated}}
+        <span>{{user.username}}</span>|
+        <a href="#" onclick="logoutUser()">logout</a>
+        {{/if}}
+    </div>
+</header>

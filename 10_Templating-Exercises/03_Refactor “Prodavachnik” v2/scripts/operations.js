@@ -36,6 +36,7 @@ function registerUser() {
 
     function registerUserSuccess(userInfo) { // the response from registering a user
         // is the user itself that we just registered
+        $('#errorBox').hide();
         saveAuthInSession(userInfo);
         loadHeader();
         loadHome();

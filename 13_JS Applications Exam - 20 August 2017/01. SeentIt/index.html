@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SeenIt</title>
+    <link rel="stylesheet" href="style/site.css">
+    <link rel="stylesheet" href="style/post.css">
+    <link rel="stylesheet" href="style/header.css">
+    <link rel="stylesheet" href="style/menu.css">
+    <link rel="stylesheet" href="style/notifications.css">
+    <link rel="stylesheet" href="style/submit.css">
+    <link rel="stylesheet" href="style/comments.css">
+    <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../../node_modules/handlebars/dist/handlebars.min.js"></script>
+    <script src="./scripts/renderPages.js"></script>
+
+    <script src="./app.js"></script>
+    <script src="./scripts/operations.js"></script>
+</head>
+<body onload="startApp()">
+
+<div id="container">
+    <header>
+        
+    </header>
+    
+    <div class="content">
+         
+
+        
+
+         <!-- 
+        
+
+        <section id="viewMyPosts">
+            <div class="post post-content">
+                <h1>Your Posts</h1>
+            </div>
+            <div class="posts">
+                <article class="post">
+                    <div class="col rank">
+                        <span>1</span>
+                    </div>
+                    <div class="col thumbnail">
+                        <a href="http://sammyjs.org/docs/api/0.7.4/all#Sammy.RenderContext-load">
+                            <img src="src/RuditoFreshStep.jpg">
+                        </a>
+                    </div>
+                    <div class="post-content">
+                        <div class="title">
+                            <a href="http://sammyjs.org/docs/api/0.7.4/all#Sammy.RenderContext-load">
+                                Sammy Docs
+                            </a>
+                        </div>
+                        <div class="details">
+                            <div class="info">
+                                submitted 5 days ago by pesho
+                            </div>
+                            <div class="controls">
+                                <ul>
+                                    <li class="action"><a class="commentsLink" href="#">comments</a></li>
+                                    <li class="action"><a class="editLink" href="#">edit</a></li>
+                                    <li class="action"><a class="deleteLink" href="#">delete</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </article>
+            </div>
+        </section>
+
+        
+
+        <section id="viewComments">
+            <div class="post">
+                <div class="col thumbnail">
+                    <a href="http://sammyjs.org/docs/api/0.7.4/all#Sammy.RenderContext-load">
+                        <img src="src/RuditoFreshStep.jpg">
+                    </a>
+                </div>
+                <div class="post-content">
+                    <div class="title">
+                        <a href="http://sammyjs.org/docs/api/0.7.4/all#Sammy.RenderContext-load">
+                            Sammy Docs
+                        </a>
+                    </div>
+                    <div class="details">
+                        <p>Very helpful and complete info. Even includes a detailed tutorial.</p>
+                        <div class="info">
+                            submitted 5 days ago by pesho
+                        </div>
+                        <div class="controls">
+                            <ul>
+                                <li class="action"><a class="editLink" href="#">edit</a></li>
+                                <li class="action"><a class="deleteLink" href="#">delete</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="post post-content">
+                <form id="commentForm">
+                    <label>Comment</label>
+                    <textarea name="content" type="text"></textarea>
+                    <input type="submit" value="Add Comment" id="btnPostComment">
+                </form>
+            </div>
+            <article class="post post-content">
+                <p>Thanks, just what I needed.</p>
+                <div class="info">
+                    submitted 5 days ago by Gosho | <a href="#" class="deleteLink">delete</a>
+                </div>
+            </article>
+            <article class="post post-content">
+                <p>Tutorial is kinda outdated, but it works.</p>
+                <div class="info">
+                    submitted 4 days ago by Kiril | <a href="#" class="deleteLink">delete</a>
+                </div>
+            </article>
+            <article class="post post-content">
+                <p>Beats React any day! So must easier and less boilerplate.</p>
+                <div class="info">
+                    submitted 3 days ago by Nakov | <a href="#" class="deleteLink">delete</a>
+                </div>
+            </article>
+        </section> -->
+    </div>
+
+
+    <footer>SeenIt SPA © 2017</footer>
+</div>
+
+<div id="notifications">
+    <div id="loadingBox" class="notification"><span>Loading …</span></div>
+    <div id="infoBox" class="notification"><span>Info</span></div>
+    <div id="errorBox" class="notification"><span>Error</span></div>
+</div>
+
+</body>
+</html>
