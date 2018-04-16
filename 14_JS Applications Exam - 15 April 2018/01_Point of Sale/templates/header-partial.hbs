@@ -1,0 +1,25 @@
+<header class="clearfix" id="profile">
+    <div id="cashier">
+        {{#if user.isAuthenticated}}
+        <span>Cashier: </span>
+        <a href="#" onclick="loadEditor()">{{user.username}}</a>
+        {{/if}}
+    </div>
+    <nav id="nav">
+        <ul>
+            {{#if user.isAuthenticated}}
+            <li>
+                <a href="#" onclick="loadEditor()">Editor</a>
+            </li>
+            <li>
+                <a href="#" onclick="loadAllMyReceipts()">Overview</a>
+            </li>
+            <li>
+                <a href="#" class="logout" onclick="logoutUser()">Logout</a>
+            </li>
+            {{else}}
+            <li></li>
+            {{/if}}
+        </ul>
+    </nav>
+</header>
