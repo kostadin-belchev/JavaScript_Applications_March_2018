@@ -1,0 +1,10 @@
+{{> header}}
+<main>
+    <section id="viewUserHome">
+        <h1 id="viewUserHomeHeading">Welcome, {{user.username}}!</h1>
+        <a href="#" id="linkUserHomeMyMessages" onclick="myMessages()">My Messages</a>
+        <a href="#" id="linkUserHomeSendMessage" onclick="loadSendMessage()">Send Message</a>
+        <a href="#" id="linkUserHomeArchiveSent" onclick="loadArchive()">Archive (Sent)</a>
+    </section>
+</main>
+{{> footer}}

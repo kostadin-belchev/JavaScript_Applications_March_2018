@@ -55,13 +55,42 @@ function registerUser(event) {
         // is the user itself that we just registered
         $('#errorBox').hide();
         saveAuthInSession(userInfo);
-        loadHome();
+        createActiveReceipt();
         showInfo('User registration successful.');
         // clear form for next user
         $('#username-register').val('');
         $('#password-register').val('');
         $('#password-register-check').val('');
     }
+}
+
+function createActiveReceipt() {
+    $.ajax({
+        method: 'POST',
+        url: BASE_URL + 'appdata/' + APP_KEY + '/receipts',
+        headers: {
+            'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken')
+        },
+        data: {
+            'active': true,
+            'productCount': 0,
+            'total': 0
+        }
+    }).then(async function (resp) {
+
+        showInfo("Active receipt created!");
+        let context = {
+            resp,
+            user: {
+                isAuthenticated: sessionStorage.getItem('authToken') !== null,
+                username: sessionStorage.getItem('username')
+            }
+        }
+        // let headerpartial = await $.get('./templates/headerpartial.hbs');
+        // Handlebars.registerPartial('headerpartial', headerpartial);
+        containerFiller(context, './templates/create-receipt.hbs', '#container')
+    })
+    .catch(handleAjaxError)
 }
 
 function logoutUser() {
