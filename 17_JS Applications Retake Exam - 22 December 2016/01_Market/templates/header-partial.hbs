@@ -1,0 +1,15 @@
+<header id="menu">
+    {{#if user.isAuthenticated}}
+    <a href="#" class="useronly" id="linkMenuUserHome" onclick="loadHomeLogged()">Home</a>
+    <a href="#" class="useronly" id="linkMenuShop" onclick="loadShop()">Shop</a>
+    <a href="#" class="useronly" id="linkMenuCart" onclick="loadCart()">Cart</a>
+    <a href="#" class="useronly" id="linkMenuLogout" onclick="logoutUser()">Logout</a>
+
+    <span class="useronly" id="spanMenuLoggedInUser">Welcome, {{user.username}}!</span>
+
+    {{else}}
+    <a href="#" class="anonymous" id="linkMenuAppHome" onclick="loadHome()">Home</a>
+    <a href="#" class="anonymous" id="linkMenuLogin" onclick="loadLoginUser()">Login</a>
+    <a href="#" class="anonymous" id="linkMenuRegister" onclick="loadRegister()">Register</a>
+    {{/if}}
+</header>
