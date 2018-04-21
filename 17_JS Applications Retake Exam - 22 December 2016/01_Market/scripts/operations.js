@@ -179,26 +179,145 @@ function loadCart() {
 }
 
 function purchaseProduct(product_id) {
-    console.log('purchase TO DO')
-    // $.ajax({
-    //     method: 'DELETE',
-    //     url: `https://baas.kinvey.com/appdata/${APP_KEY}/messages/${msg_id}`,
-    //     headers: {
-    //         'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
-    //     },
-    //     success: deleteMessageSuccess,
-    //     error: handleAjaxError
-    // });
+    //console.log('purchase TO DO')
+    // Step 1, get user cart
+    let userId = sessionStorage.getItem('userId');
+    $.ajax({
+        url: `https://baas.kinvey.com/user/${APP_KEY}/${userId}`,
+        headers: {
+            'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+        },
+        success: getUserSuccess,
+        error: handleAjaxError
+    });
 
-    // function deleteMessageSuccess(res) {
-    //     showInfo('Message deleted.');
-    //     loadArchive();
-    // }
+    async function getUserSuccess(user) {
+        //console.log(user)
+        if (user.cart === undefined) {
+            user.cart = {};
+        }
+        let itemIds = Object.keys(user.cart);
+        //console.log(itemIds);
+        let newCart = user.cart;
+        //console.log('product_id:');
+        //console.log(product_id);
+        if (!itemIds.includes(product_id)) {
+            // Step 1.5, get the product to update cart
+            $.ajax({
+                url: `https://baas.kinvey.com/appdata/${APP_KEY}/products/${product_id}`,
+                headers: {
+                    'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+                },
+                success: gotProductSuccess,
+                error: handleAjaxError
+            });
+            function gotProductSuccess(product) {
+                //console.log(product);
+                let itemToAdd = {
+                    "quantity": "1",
+                    "product": {
+                        "name": product.name,
+                        "description": product.description,
+                        "price": product.price
+                    }
+                }
+                //console.log('itemToAdd:');
+                //console.log(itemToAdd);
+                newCart[product_id] = itemToAdd;
+                // Step 2, update cart and submit user to datebase again
+                user.cart = newCart;
+                let updatedUserData = user;
+
+                $.ajax({
+                    method: 'PUT',
+                    url: `https://baas.kinvey.com/user/${APP_KEY}/${user._id}`,
+                    headers: {
+                    'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+                    },
+                    data: updatedUserData,
+                    success: updatedUserWithNewCartSuccess,
+                    error: handleAjaxError
+                });
+
+                function updatedUserWithNewCartSuccess(res) {
+                    showInfo('Product purchased.');
+                }
+            }
+            
+        } else {
+            // console.log('user.cart[product_id].quantity:');
+            // console.log(newCart[product_id].quantity);
+            // console.log('user.cart.product_id.quantity:')
+            // console.log(newCart.product_id.quantity);
+            //newCart.product_id.quantity++;
+            newCart[product_id].quantity++;
+            //Step 2, update cart and submit user to datebase again
+            user.cart = newCart;
+            let updatedUserData = user;
+
+            $.ajax({
+                method: 'PUT',
+                url: `https://baas.kinvey.com/user/${APP_KEY}/${user._id}`,
+                headers: {
+                'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+                },
+                data: updatedUserData,
+                success: updatedUserWithNewCartSuccess,
+                error: handleAjaxError
+            });
+
+            function updatedUserWithNewCartSuccess(res) {
+                showInfo('Product quantity increased by 1. See Cart for more details.');
+            }
+        }
+    }
 }
 
-function discardProduct(prod_id) {
-    console.log('discardProduct TO DO')
-    
+function discardProduct(product_id) {
+    //console.log('discardProduct TO DO')
+    // Successfully logged in users should be able to discard the products they purchased 
+    // by clicking on the [Discard] button in the table of product in the Cart view.
+    // The Deletion, should delete the whole product, regardless of its quantity.
+     // Step 1, get user cart
+    let userId = sessionStorage.getItem('userId');
+    $.ajax({
+        url: `https://baas.kinvey.com/user/${APP_KEY}/${userId}`,
+        headers: {
+            'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+        },
+        success: getUserSuccess,
+        error: handleAjaxError
+    });
+
+    async function getUserSuccess(user) {
+        //console.log(user);
+        // Step 2, update by deleting element from cart and submit user to datebase again
+        // console.log('product_id:');
+        // console.log(product_id);
+        let newCart = user.cart;
+        delete newCart[product_id];
+        // console.log('newCart:');
+        // console.log(newCart);
+        user.cart = newCart;
+        let updatedUserData = user;
+
+        $.ajax({
+            method: 'PUT',
+            url: `https://baas.kinvey.com/user/${APP_KEY}/${user._id}`,
+            headers: {
+            'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+            },
+            data: updatedUserData,
+            success: updatedUserWithNewCartSuccess,
+            error: handleAjaxError
+        });
+
+        function updatedUserWithNewCartSuccess(res) {
+            // After successful product discard a notification message “Product discarded.” should be shown.
+            showInfo('Product discarded.');
+            loadCart();
+        }
+    }
 }
 // GRUD operations with messages --- END -------------------------------------
 
