@@ -377,8 +377,8 @@ function loadOtherProfilePage(userIdToLoad) {
             }).then(function(currentlyLoggedUser) {
                 subscriptionsArray = currentlyLoggedUser.subscriptions;
             }).catch(handleAjaxError);
-            console.log("subscriptionsArray:");
-            console.log(subscriptionsArray);
+            // console.log("subscriptionsArray:");
+            // console.log(subscriptionsArray);
             let followOrUnfollow;
             if (subscriptionsArray.includes(user.username)) {
                 followOrUnfollow = 'Unfollow';
@@ -404,7 +404,7 @@ function loadOtherProfilePage(userIdToLoad) {
 }
 
 function follow(usernameOfUserToFollow) {
-    console.log(`usernameOfUserToFollow: ${usernameOfUserToFollow} TO DO `);
+    //console.log(`usernameOfUserToFollow: ${usernameOfUserToFollow} TO DO `);
     // PUT https://baas.kinvey.com/user/app_key/user_id
     // The PUT query does not need to include the whole user object. 
     // Submit only the modified subscriptions array.
@@ -426,8 +426,8 @@ function follow(usernameOfUserToFollow) {
         if (user.subscriptions === undefined) {
             user.subscriptions = [];
         }
-        console.log('user.subscriptions:');
-        console.log(user.subscriptions);
+        // console.log('user.subscriptions:');
+        // console.log(user.subscriptions);
         if (user.subscriptions.includes(usernameOfUserToFollow)) {
             user.subscriptions.splice(user.subscriptions.indexOf(usernameOfUserToFollow), 1);
             subscribed = false;
@@ -435,9 +435,9 @@ function follow(usernameOfUserToFollow) {
             user.subscriptions.push(usernameOfUserToFollow);
             subscribed = true;
         }
-        console.log('--------');
-        console.log('user.subscriptions:');
-        console.log(user.subscriptions);
+        // console.log('--------');
+        // console.log('user.subscriptions:');
+        // console.log(user.subscriptions);
 
         let updatedData = {
                 "subscriptions": user.subscriptions
@@ -466,8 +466,8 @@ function follow(usernameOfUserToFollow) {
                 $('#btnFollow').text('Follow');
             }
             let userIdOfUserToFollow = $('#btnFollow').attr('data-id');
-            console.log('userIdOfUserToFollow:');
-            console.log(userIdOfUserToFollow);
+            // console.log('userIdOfUserToFollow:');
+            // console.log(userIdOfUserToFollow);
             loadOtherProfilePage(userIdOfUserToFollow);
         }
     }
