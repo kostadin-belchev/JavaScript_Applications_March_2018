@@ -138,10 +138,14 @@ async function loadFeed() {
     // The feed screen contains all chirps from subscriptions or 
     // people that the user is following (sorted by time posted in 
     // descending). It also contains the create a chirp form.
-    // GET https://baas.kinvey.com/appdata/app_key/chirps?query={"author":"username"}&sort={"_kmd.ect": 1}
+    // GET https://baas.kinvey.com/appdata/app_key/chirps?query={"author":{"$in": [subs]}}&sort={"_kmd.ect": 1}
     let username = sessionStorage.getItem('username');
+    let subs = sessionStorage.getItem('subscriptionsArray');
+    // console.log('subs:');
+    // console.log(subs);
+    
     $.ajax({
-        url: `https://baas.kinvey.com/appdata/${APP_KEY}/chirps?query={"author":"${username}"}&sort={"_kmd.ect": 1}`,
+        url: `https://baas.kinvey.com/appdata/${APP_KEY}/chirps?query={"author":{"$in":${subs}}}&sort={"_kmd.ect": 1}`,
         headers: {
             'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
         },
@@ -152,9 +156,8 @@ async function loadFeed() {
     async function chirpsLoadedSuccess(chirps) {
         //console.log(chirps);
         for (const chirp of chirps) {
-            chirp.date = calcTime(chirp._kmd.ect );
+            chirp.date = calcTime(chirp._kmd.ect);
         }
-
         // Get the stats with 3 requests
         let chirpsCount = 0;
         let followingCount = 0;
@@ -235,63 +238,302 @@ function postChirp(event) {
 
     async function createChirpSuccess(response) {
         showInfo('Chirp published.');
-        loadMe();
+        loadProfilePage();
         // Clear the create chirp input field after successful creation.
         textAreaBox.val('');
     }
 }
 
-function loadMe() {
-    console.log('loadMe TO DO')
-    
+function loadProfilePage() {
+    //console.log('loadProfilePage TO DO');
+    // Logged in users can view individual feeds (profile page). 
+    // The currently logged user has an individual feed page where he can view his own chirps, 
+    // create a chirp and delete his own chirps. 
+    // Each logged in user can access their own feed by clicking the [Me] link.
+    // GET https://baas.kinvey.com/appdata/app_key/chirps?query={"author":"username"}&sort={"_kmd.ect": 1}
+    let username = sessionStorage.getItem('username');
+    $.ajax({
+        url: `https://baas.kinvey.com/appdata/${APP_KEY}/chirps?query={"author":"${username}"}&sort={"_kmd.ect": 1}`,
+        headers: {
+            'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+        },
+        success: chirpsLoadedSuccess,
+        error: handleAjaxError
+    });
+
+    async function chirpsLoadedSuccess(chirps) {
+        //console.log(chirps);
+        for (const chirp of chirps) {
+            chirp.date = calcTime(chirp._kmd.ect);
+        }
+        // Get the stats with 3 requests
+        let chirpsCount = 0;
+        let followingCount = 0;
+        let followersCount = 0;
+
+        await $.ajax({
+            url: `https://baas.kinvey.com/appdata/${APP_KEY}/chirps?query={"author":"${username}"}`,
+            headers: {
+                'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+            }
+        }).then(function (chirpsArray) {chirpsCount = chirpsArray.length}).catch(handleAjaxError);
+
+        await $.ajax({
+            url: `https://baas.kinvey.com/user/${APP_KEY}/?query={"username":"${username}"}`,
+            headers: {
+                'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+            }
+        }).then(function (user) {
+            // console.log('user data: ');
+            // console.log(user);
+            if (user[0].subscriptions === undefined) {
+                user[0].subscriptions = [];
+            }
+            followingCount = user[0].subscriptions.length
+            }).catch(handleAjaxError);
+
+        await $.ajax({
+            url: `https://baas.kinvey.com/user/${APP_KEY}/?query={"subscriptions":"${username}"}`,
+            headers: {
+                'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+            }
+        }).then(function (usersSubscribedToUsername) {followersCount = usersSubscribedToUsername.length}).catch(handleAjaxError);
+
+        let context = {
+            user: {
+                isAuthenticated: sessionStorage.getItem('authToken') !== null,
+                username: sessionStorage.getItem('username')
+            },
+            chirps,
+            chirpsCount,
+            followingCount,
+            followersCount
+        };
+        await containerFiller(context, './templates/view-me.hbs', '#main');
+    }
 }
 
-// function discardProduct(product_id) {
-//     //console.log('discardProduct TO DO')
-//     // Successfully logged in users should be able to discard the products they purchased 
-//     // by clicking on the [Discard] button in the table of product in the Cart view.
-//     // The Deletion, should delete the whole product, regardless of its quantity.
-//      // Step 1, get user cart
-//     let userId = sessionStorage.getItem('userId');
-//     $.ajax({
-//         url: `https://baas.kinvey.com/user/${APP_KEY}/${userId}`,
-//         headers: {
-//             'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
-//         },
-//         success: getUserSuccess,
-//         error: handleAjaxError
-//     });
+function loadOtherProfilePage(userIdToLoad) {
+    //console.log('loadOtherProfilePage() TO DO');
+    $.ajax({
+        url: `https://baas.kinvey.com/user/${APP_KEY}/${userIdToLoad}`,
+        headers: {
+            'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+        },
+        success: userLoadedSuccess,
+        error: handleAjaxError
+    });
 
-//     async function getUserSuccess(user) {
-//         //console.log(user);
-//         // Step 2, update by deleting element from cart and submit user to datebase again
-//         // console.log('product_id:');
-//         // console.log(product_id);
-//         let newCart = user.cart;
-//         delete newCart[product_id];
-//         // console.log('newCart:');
-//         // console.log(newCart);
-//         user.cart = newCart;
-//         let updatedUserData = user;
+    function userLoadedSuccess(user) {
+        //console.log(user);
+        $.ajax({
+            url: `https://baas.kinvey.com/appdata/${APP_KEY}/chirps?query={"author":"${user.username}"}&sort={"_kmd.ect": 1}`,
+            headers: {
+                'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+            },
+            success: chirpsLoadedSuccess,
+            error: handleAjaxError
+        });
 
-//         $.ajax({
-//             method: 'PUT',
-//             url: `https://baas.kinvey.com/user/${APP_KEY}/${user._id}`,
-//             headers: {
-//             'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
-//             },
-//             data: updatedUserData,
-//             success: updatedUserWithNewCartSuccess,
-//             error: handleAjaxError
-//         });
+        async function chirpsLoadedSuccess(chirps) {
+            //console.log(chirps);
+            for (const chirp of chirps) {
+                chirp.date = calcTime(chirp._kmd.ect);
+            }
+            // Get the stats with 3 requests
+            let chirpsCount = 0;
+            let followingCount = 0;
+            let followersCount = 0;
 
-//         function updatedUserWithNewCartSuccess(res) {
-//             // After successful product discard a notification message “Product discarded.” should be shown.
-//             showInfo('Product discarded.');
-//             loadCart();
-//         }
-//     }
-// }
+            await $.ajax({
+                url: `https://baas.kinvey.com/appdata/${APP_KEY}/chirps?query={"author":"${user.username}"}`,
+                headers: {
+                    'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+                }
+            }).then(function (chirpsArray) {chirpsCount = chirpsArray.length}).catch(handleAjaxError);
+
+            // console.log('user data: ');
+            // console.log(user);
+            if (user.subscriptions === undefined) {
+                user.subscriptions = [];
+            }
+            followingCount = user.subscriptions.length;
+
+            await $.ajax({
+                url: `https://baas.kinvey.com/user/${APP_KEY}/?query={"subscriptions":"${user.username}"}`,
+                headers: {
+                    'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+                }
+            }).then(function (usersSubscribedToUsername) {followersCount = usersSubscribedToUsername.length}).catch(handleAjaxError);
+
+            let subscriptionsArray;
+
+            let currentlyLoggedUserId = sessionStorage.getItem('userId');
+            await $.ajax({
+                url: `https://baas.kinvey.com/user/${APP_KEY}/${currentlyLoggedUserId}`,
+                headers: {
+                    'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+                },
+            }).then(function(currentlyLoggedUser) {
+                subscriptionsArray = currentlyLoggedUser.subscriptions;
+            }).catch(handleAjaxError);
+            console.log("subscriptionsArray:");
+            console.log(subscriptionsArray);
+            let followOrUnfollow;
+            if (subscriptionsArray.includes(user.username)) {
+                followOrUnfollow = 'Unfollow';
+            } else {
+                followOrUnfollow = 'Follow';
+            }
+            let context = {
+                user: {
+                    isAuthenticated: sessionStorage.getItem('authToken') !== null,
+                    username: user.username,
+                    _id: user._id
+                },
+                chirps,
+                chirpsCount,
+                followingCount,
+                followersCount,
+                followOrUnfollow
+            };
+
+            await containerFiller(context, './templates/others-profile.hbs', '#main');
+        }
+    }
+}
+
+function follow(usernameOfUserToFollow) {
+    console.log(`usernameOfUserToFollow: ${usernameOfUserToFollow} TO DO `);
+    // PUT https://baas.kinvey.com/user/app_key/user_id
+    // The PUT query does not need to include the whole user object. 
+    // Submit only the modified subscriptions array.
+    let currentlyLoggedUserId = sessionStorage.getItem('userId');
+
+    $.ajax({
+        url: `https://baas.kinvey.com/user/${APP_KEY}/${currentlyLoggedUserId}`,
+        headers: {
+            'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+        },
+        success: userLoadedSuccess,
+        error: handleAjaxError
+    });
+
+    function userLoadedSuccess(user) {
+        // console.log('user: ');
+        // console.log(user);
+        let subscribed;
+        if (user.subscriptions === undefined) {
+            user.subscriptions = [];
+        }
+        console.log('user.subscriptions:');
+        console.log(user.subscriptions);
+        if (user.subscriptions.includes(usernameOfUserToFollow)) {
+            user.subscriptions.splice(user.subscriptions.indexOf(usernameOfUserToFollow), 1);
+            subscribed = false;
+        } else {
+            user.subscriptions.push(usernameOfUserToFollow);
+            subscribed = true;
+        }
+        console.log('--------');
+        console.log('user.subscriptions:');
+        console.log(user.subscriptions);
+
+        let updatedData = {
+                "subscriptions": user.subscriptions
+            }
+        // console.log('updatedData: ');
+        // console.log(updatedData);
+
+        $.ajax({
+            method: 'PUT',
+            url: `https://baas.kinvey.com/user/${APP_KEY}/${currentlyLoggedUserId}`,
+            headers: {
+                'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(updatedData),
+            success: subcribedOrUnsubSuccess,
+            error: handleAjaxError
+        });
+
+        async function subcribedOrUnsubSuccess(res) {
+            if (subscribed) {
+                showInfo(`Subscribed to ${usernameOfUserToFollow}`);
+                $('#btnFollow').text('Unfollow');
+            } else {
+                showInfo(`Unsubscribed to ${usernameOfUserToFollow}`);
+                $('#btnFollow').text('Follow');
+            }
+            let userIdOfUserToFollow = $('#btnFollow').attr('data-id');
+            console.log('userIdOfUserToFollow:');
+            console.log(userIdOfUserToFollow);
+            loadOtherProfilePage(userIdOfUserToFollow);
+        }
+    }
+}
+
+function loadDiscover() {
+    // console.log('loadDiscover TO DO');
+    // GET https://baas.kinvey.com/user/app_key/
+    $.ajax({
+        url: `https://baas.kinvey.com/user/${APP_KEY}/`,
+        headers: {
+            'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken')
+        },
+        success: getAllUsersSuccess,
+        error: handleAjaxError
+    });
+
+    async function getAllUsersSuccess(allUsers) {
+        //console.log(allUsers);
+        let currentUserId = sessionStorage.getItem('userId');
+        // let allUsersExceptCurrent = [];
+        for (const user of allUsers) {
+            if (user._id === currentUserId) {
+                allUsers.splice(allUsers.indexOf(user), 1);
+            }
+        }
+        // console.log('--------');
+        // console.log(allUsers);
+        // at this point we have deleted the currently logged user
+        for (const user of allUsers) {
+            await $.ajax({
+                url: `https://baas.kinvey.com/user/${APP_KEY}/?query={"subscriptions":"${user.username}"}`,
+                headers: {
+                    'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+                }
+            }).then(function (usersSubscribedToUsername) {user.followersCount = usersSubscribedToUsername.length}).catch(handleAjaxError);
+        }
+
+        let context = {
+            user: {
+                isAuthenticated: sessionStorage.getItem('authToken') !== null,
+                username: sessionStorage.getItem('username')
+            },
+            allUsers
+        };
+        await containerFiller(context, './templates/discover.hbs', '#main');
+    }
+}
+
+function deleteChirp(idToDelete) {
+    // DELETE https://baas.kinvey.com/appdata/app_key/chirps/chirp_id 
+    $.ajax({
+        method: 'DELETE',
+        url: `https://baas.kinvey.com/appdata/${APP_KEY}/chirps/${idToDelete}`,
+        headers: {
+            'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken')
+        },
+        success: deleteChirpSuccess,
+        error: handleAjaxError
+    });
+
+    function deleteChirpSuccess(response) {
+        loadProfilePage();
+        showInfo('Chirp deleted.');
+    }
+}
 // GRUD operations with messages --- END -------------------------------------
 
 // Helper functions --- START -----------------------------------------------
@@ -300,6 +542,9 @@ function saveAuthInSession(userInfo) {
     sessionStorage.setItem('username', userInfo.username);
     sessionStorage.setItem('authToken', userInfo._kmd.authtoken);
     sessionStorage.setItem('userId', userInfo._id);
+    if (userInfo.subscriptions === undefined) {
+        userInfo.subscriptions = [""];
+    }
     sessionStorage.setItem('subscriptionsArray', JSON.stringify(userInfo.subscriptions));
 }
 
