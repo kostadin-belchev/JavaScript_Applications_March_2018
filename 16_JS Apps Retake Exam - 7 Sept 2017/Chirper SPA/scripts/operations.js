@@ -498,12 +498,16 @@ function loadDiscover() {
         // console.log(allUsers);
         // at this point we have deleted the currently logged user
         for (const user of allUsers) {
-            await $.ajax({
-                url: `https://baas.kinvey.com/user/${APP_KEY}/?query={"subscriptions":"${user.username}"}`,
-                headers: {
-                    'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
-                }
-            }).then(function (usersSubscribedToUsername) {user.followersCount = usersSubscribedToUsername.length}).catch(handleAjaxError);
+            // await $.ajax({
+            //     url: `https://baas.kinvey.com/user/${APP_KEY}/?query={"subscriptions":"${user.username}"}`,
+            //     headers: {
+            //         'Authorization': 'Kinvey ' + sessionStorage.getItem('authToken'),
+            //     }
+            // }).then(function (usersSubscribedToUsername) {user.followersCount = usersSubscribedToUsername.length}).catch(handleAjaxError);
+            if (user.subscriptions === undefined) {
+                user.subscriptions = [];
+            }
+            user.followersCount = user.subscriptions.length;
         }
 
         let context = {
