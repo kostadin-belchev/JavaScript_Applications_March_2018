@@ -4,10 +4,6 @@ function saveAuthInSession(userInfo) {
     sessionStorage.setItem('username', userInfo.username);
     sessionStorage.setItem('authToken', userInfo._kmd.authtoken);
     sessionStorage.setItem('userId', userInfo._id);
-    if (userInfo.subscriptions === undefined) {
-        userInfo.subscriptions = [""];
-    }
-    sessionStorage.setItem('subscriptionsArray', JSON.stringify(userInfo.subscriptions));
 }
 
 function showInfo(message) {
