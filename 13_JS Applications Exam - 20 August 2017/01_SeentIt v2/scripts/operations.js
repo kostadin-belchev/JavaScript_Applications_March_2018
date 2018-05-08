@@ -160,7 +160,7 @@ function listPosts() {
             },
             posts
         };
-        await containerFiller(context, './templates/catalogue.hbs', '#container')
+        await containerFiller(context, './templates/catalogue.hbs', '#container');
     }
 }
 

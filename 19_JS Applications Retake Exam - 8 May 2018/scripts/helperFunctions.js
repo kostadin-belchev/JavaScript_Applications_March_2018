@@ -79,4 +79,16 @@ function calcTime(dateIsoFormat) {
         else return '';
     }
 }
+
+function formatDate(dateISO8601) {
+    let date = new Date(dateISO8601);
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+    if (Number.isNaN(date.getDate()))
+        return '';
+    return date.getDate() + ' ' + monthNames[date.getMonth()];
+    function padZeros(num) {
+        return ('0' + num).slice(-2);
+    }
+}
 // Helper functions --- END -----------------------------------------------
