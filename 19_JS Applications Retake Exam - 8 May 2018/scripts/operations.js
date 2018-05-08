@@ -219,7 +219,7 @@ function createFlight(event) {
         "departure": departureDateBox.val(),
         "departureTime": departureTimeBox.val(),
         "seats": Number(seatsBox.val()),
-        "cost": Number(costBox.val()),
+        "cost": Number(Number(costBox.val()).toFixed(2)),
         "image": imgBox.val(),
         "isPublished": isPublicCheckBox.is(":checked")
     }
@@ -361,7 +361,7 @@ function saveFlightChanges(event) {
         "departure": departureDateBox.val(),
         "departureTime": departureTimeBox.val(),
         "seats": Number(seatsBox.val()),
-        "cost": Number(costBox.val()),
+        "cost": Number(Number(costBox.val()).toFixed(2)),
         "image": imgBox.val(),
         "isPublished": isPublicCheckBox.is(":checked")
     }
